@@ -86,5 +86,4 @@ function renamefirstnavbit_run()
 		$navbits[0]['name'] = htmlspecialchars_uni($mybb->settings['renamefirstnavbit_content']);
 	}
 }
-
 $plugins->add_hook("global_end", "renamefirstnavbit_run");
