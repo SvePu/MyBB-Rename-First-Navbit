@@ -78,12 +78,12 @@ function renamefirstnavbit_deactivate()
 
 function renamefirstnavbit_run()
 {
-	global $db, $mybb, $navbits;
+	global $mybb, $navbits;
 	if ($mybb->settings['renamefirstnavbit_enable'] == 1 && !empty($mybb->settings['renamefirstnavbit_content']))
 	{
 		$navbits = array();
 		$navbits[0]['url'] = $mybb->settings['bburl'];
-		$navbits[0]['name'] = htmlspecialchars_uni($mybb->settings['renamefirstnavbit_content']);
+		$navbits[0]['name'] = $mybb->settings['renamefirstnavbit_content'];
 	}
 }
 $plugins->add_hook("global_end", "renamefirstnavbit_run");
