@@ -14,7 +14,7 @@ function renamefirstnavbit_info()
         "website"       => "https://github.com/SvePu/MyBB-Rename-First-Navbit",
         "author"        => "SvePu",
         "authorsite"    => "https://github.com/SvePu",
-        "version"       => "1.0",
+        "version"       => "1.2",
         "codename"      => "renamefirstnavbit",
         "compatibility" => "18*"
     );
@@ -32,32 +32,33 @@ function renamefirstnavbit_activate()
 		"disporder"		=> 	$rows+1,
 		"isdefault" 	=>  0
 	);
-	$db->insert_query("settinggroups", $renamefirstnavbit_group);
-	$gid = $db->insert_id();
 
-	$renamefirstnavbit_1 = array(
-		'sid'           => 'NULL',
-		'name'			=> 'renamefirstnavbit_enable',
-		'title'			=> "Enable plugin?",
-		'description'  	=> "If you want to activate plugin functions - choose YES",
-		'optionscode'  	=> 'yesno',
-		'value'        	=> '1',
-		'disporder'		=> 1,
-		"gid" 			=> (int)$gid
+	$gid = $db->insert_query("settinggroups", $renamefirstnavbit_group);
+
+	$setting_array = array(
+		'renamefirstnavbit_enable' => array(
+			'title'			=> "Enable plugin?",
+			'description'  	=> "If you want to activate plugin functions - choose YES",
+			'optionscode'  	=> 'yesno',
+			'value'        	=> '1',
+			'disporder'		=> 1
+		),
+		'renamefirstnavbit_content' => array(
+			"title"			=> "Name of first navbit",
+			"description" 	=> "Here you can enter in the new name of your first forum navbit.",
+			'optionscode'  	=> 'text',
+			'value'        	=> 'Home',
+			"disporder"		=> 2
+		)
 	);
-	$db->insert_query('settings', $renamefirstnavbit_1);
 
+	foreach($setting_array as $name => $setting)
+	{
+		$setting['name'] = $name;
+		$setting['gid'] = $gid;
 
-	$renamefirstnavbit_2 = array(
-		"name"			=> "renamefirstnavbit_content",
-		"title"			=> "Name of first navbit",
-		"description" 	=> "Here you can enter in the new name of your first forum navbit.",
-		'optionscode'  	=> 'text',
-		'value'        	=> 'Home',
-		"disporder"		=> 2,
-		"gid" 			=> (int)$gid
-	);
-	$db->insert_query("settings", $renamefirstnavbit_2);
+		$db->insert_query('settings', $setting);
+	}
 	rebuild_settings();
 }
 
