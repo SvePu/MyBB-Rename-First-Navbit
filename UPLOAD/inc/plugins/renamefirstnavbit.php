@@ -49,6 +49,13 @@ function renamefirstnavbit_activate()
 			'optionscode'  	=> 'text',
 			'value'        	=> 'Home',
 			"disporder"		=> 2
+		),
+		'renamefirstnavbit_hide' => array(
+			"title"			=> "Hide Navigation on Index Page",
+			"description" 	=> "Choose YES to hide the navigation on index page.<br/>If you only want hide the navigation on index page without changing the default navbit name, leave the above text field blank.",
+			'optionscode'  	=> 'yesno',
+			'value'        	=> '0',
+			"disporder"		=> 3
 		)
 	);
 
@@ -80,11 +87,21 @@ function renamefirstnavbit_deactivate()
 function renamefirstnavbit_run()
 {
 	global $mybb, $navbits;
-	if ($mybb->settings['renamefirstnavbit_enable'] == 1 && !empty($mybb->settings['renamefirstnavbit_content']))
+	if ($mybb->settings['renamefirstnavbit_enable'] == 1)
 	{
-		$navbits = array();
-		$navbits[0]['url'] = $mybb->settings['bburl'];
-		$navbits[0]['name'] = $mybb->settings['renamefirstnavbit_content'];
+		if(!empty($mybb->settings['renamefirstnavbit_content']))
+		{
+			$navbits = array();
+			$navbits[0]['url'] = $mybb->settings['bburl'];
+			$navbits[0]['name'] = $mybb->settings['renamefirstnavbit_content'];
+		}
+
+		if($mybb->settings['renamefirstnavbit_hide'] == 1 && strpos('index.php', THIS_SCRIPT) !== false)
+		{
+			$navbits = array();
+			$navbits[0]['url'] = "";
+			$navbits[0]['name'] = "";
+		}
 	}
 }
 $plugins->add_hook("global_end", "renamefirstnavbit_run");
