@@ -84,7 +84,7 @@ function renamefirstnavbit_deactivate()
 	}
 }
 
-function renamefirstnavbit_run()
+function renamefirstnavbit_global_end()
 {
 	global $mybb, $navbits;
 	if ($mybb->settings['renamefirstnavbit_enable'] == 1)
@@ -104,4 +104,14 @@ function renamefirstnavbit_run()
 		}
 	}
 }
-$plugins->add_hook("global_end", "renamefirstnavbit_run");
+$plugins->add_hook("global_end", "renamefirstnavbit_global_end");
+
+function renamefirstnavbit_pre_parse_page(&$contents)
+{
+	global $mybb;
+	if ($mybb->settings['renamefirstnavbit_enable'] == 1 && $mybb->settings['renamefirstnavbit_hide'] == 1 && strpos('index.php', THIS_SCRIPT) !== false)
+	{
+		$contents = str_replace('<navigation>', "", $contents);
+	}
+}
+$plugins->add_hook("pre_parse_page", "renamefirstnavbit_pre_parse_page");
