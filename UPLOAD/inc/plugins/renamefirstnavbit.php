@@ -14,7 +14,7 @@ function renamefirstnavbit_info()
         "website"       => "https://github.com/SvePu/MyBB-Rename-First-Navbit",
         "author"        => "SvePu",
         "authorsite"    => "https://github.com/SvePu",
-        "version"       => "1.2",
+        "version"       => "1.3",
         "codename"      => "renamefirstnavbit",
         "compatibility" => "18*"
     );
@@ -23,8 +23,8 @@ function renamefirstnavbit_info()
 function renamefirstnavbit_activate()
 {
 	global $db;
-	$query_add = $db->simple_select("settinggroups", "COUNT(*) as rows");
-	$rows = $db->fetch_field($query_add, "rows");
+	$query_add = $db->simple_select("settinggroups", "COUNT(*) as count");
+	$rows = $db->fetch_field($query_add, "count");
 	$renamefirstnavbit_group = array(
 		"name" 			=>	"renamefirstnavbit",
 		"title" 		=>	"Rename First Navbit Settings",
